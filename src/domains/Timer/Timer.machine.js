@@ -42,25 +42,20 @@ export const TimerMachine = createMachine(
                             actions: ['updateRemainingValue'],
                         },
                     ],
-                },
+                }
             },
             paused: {
                 entry: ['clearEndDate'],
                 on: {
                     CONTINUE: 'running',
                     STOP: 'stopped',
-                },
+                }
             },
             stopped: {
                 entry: ['clearEndDate', 'clearRemainingValue'],
                 always: 'idle'
             },
             finished: {
-                meta: {
-                    test: async page => {
-                      await page.waitFor('[data-testid="question-screen"]');
-                    }
-                },
                 entry: ['playSound', 'clearEndDate', 'clearRemainingValue'],
                 always: 'idle'
             },
