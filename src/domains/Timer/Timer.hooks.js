@@ -1,14 +1,14 @@
 import { useMemo } from "react";
-import { getControlButtonsList, formatMilliseconds } from './Timer.utils';
+import { formatMilliseconds, getControlButtonsList } from "./Timer.utils";
 
 export const useConrolsList = (state) => {
-    return useMemo(() => {
-        return getControlButtonsList(state)
-    }, [state])
-}
+	return useMemo(() => {
+		return getControlButtonsList(state);
+	}, [state]);
+};
 
 export const useFormattedMilliseconds = (value) => {
-    return useMemo(() => {
-        return formatMilliseconds(value);
-    }, [value]);
-}
+	return useMemo(() => {
+		return formatMilliseconds(value);
+	}, [value]);
+};

@@ -1,12 +1,12 @@
-import './App.css'
-import Timer from './domains/Timer/Timer';
+import "./App.css";
+import Timer from "./domains/Timer/Timer";
 
 function App() {
-  return (
-    <>
-      <Timer />
-    </>
-  )
+	return (
+		<>
+			<Timer />
+		</>
+	);
 }
 
-export default App
+export default App;

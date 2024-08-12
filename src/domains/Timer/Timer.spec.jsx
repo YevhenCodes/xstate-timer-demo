@@ -1,15 +1,15 @@
-import { expect, it, vi, beforeEach, afterEach } from "vitest";
+import { act, fireEvent, render } from "@testing-library/react";
 import { getSimplePaths } from "@xstate/graph";
-import { createMachine } from "xstate";
-import { render, act, fireEvent } from "@testing-library/react";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { describe } from "vitest";
+import { createMachine } from "xstate";
 
+import {
+	addMetaToStates,
+	getPathDescription,
+} from "../../shared/utils/test.utils";
 import Timer from "./Timer";
 import { TimerMachine } from "./Timer.machine";
-import {
-	getPathDescription,
-	addMetaToStates,
-} from "../../shared/utils/test.utils";
 
 const timerMachineMeta = {
 	running: {
@@ -141,19 +141,19 @@ const timerMachineMeta = {
 };
 
 const paths = getSimplePaths(
-  createMachine(
-    addMetaToStates(TimerMachine.config, timerMachineMeta),
-    TimerMachine.implementations
-  ),
-  {
-    events: [
-      { type: "SET_INITIAL_VALUE", payload: { initialValue: 1000 } },
-      { type: "START" },
-      { type: "PAUSE" },
-      { type: "CONTINUE" },
-      { type: "STOP" },
-    ],
-  }
+	createMachine(
+		addMetaToStates(TimerMachine.config, timerMachineMeta),
+		TimerMachine.implementations,
+	),
+	{
+		events: [
+			{ type: "SET_INITIAL_VALUE", payload: { initialValue: 1000 } },
+			{ type: "START" },
+			{ type: "PAUSE" },
+			{ type: "CONTINUE" },
+			{ type: "STOP" },
+		],
+	},
 );
 
 describe("Timer after steps", () => {
@@ -165,16 +165,16 @@ describe("Timer after steps", () => {
 		vi.useRealTimers();
 	});
 
-	paths.forEach((path) => {
+	for (const path of paths) {
 		const pathStateMeta = path.state.getMeta()[`timer.${path.state.value}`];
 
-		if (pathStateMeta && pathStateMeta.tests) {
+		if (pathStateMeta?.tests) {
 			describe(getPathDescription(path), () => {
-				pathStateMeta.tests.forEach(({ description, test }) => {
+				for (const { description, test } of pathStateMeta.tests) {
 					it(description, () => {
 						const { getByTestId, queryByTestId } = render(<Timer />);
 
-						path.steps.forEach((step) => {
+						for (const step of path.steps) {
 							switch (step.event.type) {
 								case "xstate.init":
 									break;
@@ -212,12 +212,12 @@ describe("Timer after steps", () => {
 								default:
 									throw new Error(`Unhandled event type: ${event.type}`);
 							}
-						});
+						}
 
 						test(queryByTestId);
 					});
-				});
+				}
 			});
 		}
-	});
+	}
 });
