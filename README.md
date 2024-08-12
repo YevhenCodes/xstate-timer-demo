@@ -1,5 +1,7 @@
 # xState timer demo
 
+[![Generative integration tests status](https://github.com/YevhenCodes/xstate-timer-demo/actions/workflows/node.js.yml/badge.svg)](https://github.com/YevhenCodes/xstate-timer-demo/actions/workflows/node.js.yml)
+
 It's a simple timer app that uses [xState](https://xstate.js.org/) to manage the state of the timer. It allows user to set the timer and displays the remaining time. The timer can be paused, resumed, continued and stopped. 
 
 ![State machine visualization](./demo.gif)
